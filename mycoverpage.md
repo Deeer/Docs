@@ -4,15 +4,14 @@
 <!-- background image -->
 
 
-# docsify <small>3.5</small>
+# 👨‍💻Deeer's Docs <small>🚧</small>
 
-> A magical documentation site generator.
+> 生命在于体验.
 
-- Simple and lightweight
-- No statically built html files
-- Multiple themes
+- Stay hungry, Stay foolish.
 
-[GitHub](https://github.com/docsifyjs/docsify/)
-[Get Started](#docsify)
+
+[GitHub](https://github.com/Deeer)
+[About Me](https://www.deeer.cn)
 
 ![](_media/bg.jpg)
