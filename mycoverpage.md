@@ -1,6 +1,4 @@
 
-
-
 <!-- background image -->
 
 # 👨‍💻Deeer's Docs <small>🦖</small>
