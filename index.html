@@ -19,7 +19,8 @@
       name: '',
       repo: '',
       coverpage: 'mycoverpage.md',
-      loadSidebar: false,
+      loadSidebar: true,
+      subMaxLevel: 3,
       loadNavbar: true,
       count:{
         countable: true,
@@ -42,7 +43,6 @@
           pre: '<hr/>',
           style: 'text-align: left;',
       },
-
     }
   </script>
   <!-- Docsify v4 -->
@@ -50,6 +50,7 @@
   <script src="//unpkg.com/prismjs/components/prism-bash.js"></script>
   <script src="//unpkg.com/prismjs/components/prism-c.js"></script>
   <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
   
@@ -57,13 +58,6 @@
   <script src="https://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-0.1.1.js"></script>
    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
    <script src="//unpkg.com/docsify-footer-enh/dist/docsify-footer-enh.min.js"></script>
-
-   <script>
-  window.$docsify = {
-    disqus: 'www-deeer-cn'
-  }
-</script>
-<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/disqus.min.js"></script>
-
+    
 </body>
 </html>
