@@ -127,6 +127,19 @@ HEAD 文件里记录的是指向当前分支上最新提交的符号引用.
 
 ---
 
+## 总结
+1. git底层包含四种种对象: 
+    - 数据对象 (blob)
+    - 树对象 (tree object)
+    - 提交对象 (commit object)
+    - 标签对象 (tag object) 
+2. 对象的存储是将头部信息和数据信息拼接在一起,然后计算出sha-1值,用于存储.
+其中,头部信息数据格式是这样的 : `类型 #{content.length} \0`.如 `blob 16\u0000` . 每个对象都会这样的一个头部信息,区别只是类型不同
+3. 存储的数据结构长这样
+![CTTQkC](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/CTTQkC.png)
+横向看,git对象存储主要是以`提交对象`为主要节点进行组织,并用`树对象`存储指向新提交的文件版本和旧文件版本.
+
+
 ####  origin 是什么 ?
 origin 是当你运行clone 时,默认的远程仓库的名字.
 
