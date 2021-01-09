@@ -1,12 +1,14 @@
 # Git 基本使用
 
 
-### Git中的三个分区：
+## 1.基本概念
+
+### 1.1 Git中的三个分区：
 1. 工作区 - Working Directory
 2. 暂存区 - Staging Area
 3. 仓库 - Responstory
 
-### Git的三种状态
+### 1.2 Git的三种状态
 - 已提交（committed）
 - 已修改（modifyed） 
 - 已暂存 (staged) 
@@ -15,7 +17,7 @@
 
 ----
 
-### Git文件系统
+### 1.3 Git文件系统
 
 ![dyTYHP](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/dyTYHP.png)
 
@@ -50,11 +52,8 @@ Config文件有三个，分别对应三种不同的指令
 - `receive.fsckObjects` ： 是否强制每次在和服务器交换数据时都检查文件一致性，设置为true是，每次都强制检查，比较耗时。
 - `receive.Deletes` ： 设置不允许用户删除服务器上的分支。ture为不允许
 
-
----
-
-##### Objects
-###### 数据对象
+#### Objects
+##### 数据对象
 
 - 我们可以用find指令,来显示git object的存储内容
 ![IqDsAK](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/IqDsAK.jpg)
@@ -72,14 +71,14 @@ Config文件有三个，分别对应三种不同的指令
 至此,我们需要知道,我们存储的仅仅是文件内容,但是文件名并没有被记录,我们称这种数据类型的对象为 **数据对象 blob**
 我们可以通过`git cat-file -t`来判断对应的数据类型
 
-###### 树对象
+##### 树对象
 用于处理文件名,树对象对应了UNIX中的目录.一个树对象包含了一条或多条树对象记录.每条记录包含了一个指向**数据对象**或**子树对象**的`指针`,已经相应的模式、类型、文件名信息.
 ![YAenMN](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/YAenMN.jpg)
 我们可以通过`git cat-file -p`获取对象类型,而其中的`master^{tree}`表示master 分之上最新条所指向的树对象
 
 通过情况下,一个树对象是通过暂存区表示的状态创建的.因此树对象出现的前提是暂存区的文件.
 
-###### 提交对象
+##### 提交对象
 用于保存树对象,也就是不同项目版本的快照.换句话说说,每个提交对象都会对应一个树对象,同时他也保存了一些提交的基本信息(作者、时间、注释)
 
 
@@ -143,26 +142,148 @@ HEAD 文件里记录的是指向当前分支上最新提交的符号引用.
 
 ---
 
-### 基本工作流
+## 2.基本操作
 
-### 代码拉取
+
+### 2.1 创建本地git仓库
 ![PIold4](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/PIold4.jpg)
 
 
-###  当前状态
-![1qUcOl](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/1qUcOl.jpg)
-我们可以看到在Unchacked list下有一个README.md文件。这意味着这个文件没有被存为快照，不在git的track范围内。我们可以通过git addd 将其添加到追踪范围内
-![ZUr5hr](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/ZUr5hr.jpg)
-这样，我们就将已修改的文件放入了暂存区。
+### 2.2 用户配置
+- 配置用户信息 : 在提交代码时,会需要我们事先配置的邮箱和用户名.但是对于不同的项目代码,我们可能需要设置不同的用户名和邮箱.针对这一点,在上文的config介绍中我们已经了解过相关的配置方法.我们只需使用
+`git config --local xxx sss@email.com`
+`git config --global xxx sss@email.com`
+`git config --system xxx sss@email.com`
 
+- 确认配置内容 : 我们以使用`git config  --list`来查看当前的git配置
 
-
-### 提交到暂存区
+### 2.3 提交到暂存区
 ![eq9lpm](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/eq9lpm.jpg)
 
+**撤销 add**
+- `git restore`: 这个命令用户将未加入到暂存区的改动进行撤销,换句话说,如果编辑了代码后没有 `git add` 操作,那么可以用这个命令将改动撤销;
+    这个命令还有个`-- stage`参数,功能是将文件从暂存区中撤出,但是文件改动不会变化.
 
-### Git代码管理
+![pdTtDT](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/pdTtDT.jpg)
 
 
+###  2.4 当前状态
+![ZhzyGD](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/ZhzyGD.jpg)
+我们可以使用`git status` 或者 `gst`来显示当前的提交状态.其中`newb.md`文件时新创建的文件,他还没有被添加到的暂存区中,而`new.md`已经被添加到暂存区中,但是还有被`commit`到仓库中,因此代码仓库的,因此在`Changes not be committed`下会有`new.md`文件.在提交后,我又对`new.md`文件进行了修改,因此在`Changes not staged for commit`一栏下,可以看到的`new.md`文件.并且,git已经在文件名前将对应的操作进行了标记.这样我们就能知道,那些文件是没有被添加到暂存区的,那些文件是的没有被提及到的git仓库的,还有那些是已经被文件已被追踪,但是改动还没有添加到暂存区的.
+
+另外还可以使用`git status -s`或`gss`来简化输出内容
+![AVtRpO](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/AVtRpO.jpg)
+其中`??`表示该文件未被追踪,`A`表示文件是新添加到暂存区, `M`表示文件已被修改
+
+### 2.5 提交到代码仓库
+![Rgsr2L](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/Rgsr2L.png)
+
+将所有的修改加入暂存区之后,我们可以通过 `git commit` 命令进行提交,我们还有可以通过`-a`参数来跳过暂存操作,直接将改动提交到git仓库
+
+
+**撤销commit**
+![3Fl4kx](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/3Fl4kx.jpg)
+
+这里使用`git reset`命令进行撤销,注意这里的`--soft`参数.他仅仅撤销commit,不删除工作区的代码也不会撤销暂存操作
+这个命令还有量外两个参数:
+- `--hard` : 删除工作去的代码,同时撤销`commit`和`add`提交,此操作会将代码文件删除
+- `--mixed` : 不会对工作空间代码进行改动,但是会撤销`commit` 和 `add` 操作,此操作不会删除代码文件.最终效果是将所有文件都重置为unchack状态
+![ih4jWg](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/ih4jWg.jpg)
+
+> 小总结 : 我们可以按程度记忆 :
+```
+ `--soft` < `--mixed` < `--hard`
+    |           |           |
+commit only     |           |
+            commit + add    |
+                         commit + add + working + file delete
+```
+
+
+### 2.6 拉取远程代码
+
+#### Fetch 
+   `git fetch`操作会拉取远程仓库,但是它不会主动将远程的将改动合并到本地分支中
+#### Pull
+
+   `git pull` 会从抓取远程改动并合并到本地代码中
+
+这里需要注意的是,clone代码的时候,默认会将这个仓库添加为远程仓库,并命名为`origin`
+
+### 2.7 提交到远程仓库
+
+#### 添加远程仓库地址
+在提交到远程仓库的时候需要确保已经添加远程仓库地址
+我们可以使用使用`git remote -v`命令来显示对应的仓库地址.
+如果没有地址,我们可以使用`git remote add <shortname> <address>`来指定远程仓库地址和别名
+
+#### Push
+`git push orign master` 结合上文,那么这里命令就很容易理解了,这里的origin指代远程仓库.其原本命令是这的 `git push <remote> <local brach>`
+
+
+### 2.8 分支与标签
+
+#### 标签
+
+我们可以通过标签,来标记一个里程碑式的代码节点,方便后期回溯
+- 打标签 :   
+    - `git tag <tag name>`
+    - `git tag -a <tag name> <hash>` 
+
+- 推送标签 : 
+     `git  push`不会将tag提交到远程仓库中,需要我们另外参数指定这个操作,
+     - `git push <remote branch> <tag name>` : 指定特定版本推送到远程
+     - `git push <remote branch> --tags` : 一次性将所有的tag推送到远程
+ - 删除标签
+    - 本地标签删除 `git tag -d <tagname>`
+    - 远程标签删除 `git push <remote> :refs/tags/<tagname>`.其中冒号前面置为空置并推送到远程,是一种利用命名的形式删除tag的方式
+    - 远处标签删除 `git push origin --delete <tagname>` 
+
+- 检出标签 
+    - `git checkout <tagname>` : 检出标签后,仓库处于 游离状态(detached HEAD),这种状态下的改动提交,标签本身不会发生变化,并且提交不属于任何分支,必须通过提交的hash才能访问
+
+
+##### 游离状态(detached) 
+一般情况下HEAD指向一个分支(通常是当前分支),当我们使用`git checkout` 检出特定的某次提交之后 (这里需要注意,`git checkout`实际上是修改了HEAD文件的内容,让他指向特定的branch或索引文件),我们就能看到特定提交时的代码状态,我们可以使用这种方式随意切换到我们想要的提交节点上.但是这样,HEAD就处于游离状态,它不属于任何现有的分支,这种情况在`rebase`操作时也会发生.游离状态存在的意思在于你可以查看并在这个状态下进行实验性操作,而不会影响任何分支.
+
+- 如果想抛弃这些改动 : `git checkout  <branch name>`
+
+- 如果想保留在这个状态的改动 : 
+    1. `git branch <temp branch name> hashvalue` :  创建临时分支保存commit
+    2. `git checkout target target_branch`  : 切换到目标分支
+    3. `git merge <temp branch name>` : 合并临时分支
+    4. `git branch -d <temp branch name>` : 删除临时分支
+
+
+#### 分支
+   - 显示分支 `git branch`:
+     - `-v` : 查看每个分支的最后一次提交记录
+   - 创建分支 : `git branch <branch name>`
+   - 切换分支 : `git checkout <branch name>`
+   - 创建并切换到特定分支 : `git checkout -b <branch name>`
+   - 删除分支 : `git branch -d <branch name>`
+   - 合并分支 : `git merge <branch name>` 
+
+##### 冲突解决
+冲突部分会被`<<<<<<<` 、`========` 、 `>>>>>>>` 符号划分为两个部分,其中上半部分,从 `<<<<<<<` 到 `===`部分是本地的代码,下半部分是拉取下来的代码,可以依据需要保留上半部分或下半部分改动.
+
+
+##### 变基与合并
+    
+- 基变(Rebase)
+    - 操作流程
+      - `git checkout <branch name>`
+      - `git reabse master`
+      - `git checkout master`
+    
+- 合并(Merge)
+    - 操作流程
+      - `git checkout master`
+      - `git merge <branch name>`
+
+      
 ## 参考文献
 - [Git config 设置 Git 参数](https://wolfsonliu.github.io/archive/2018/git-config-she-zhi-git-can-shu.html)
+- [Git Detached Head: What This Means and How to Recove](https://rollout.io/blog/git-detached-head-what-this-means-and-how-to-recover/)
+- [彻底搞懂 Git-Rebase](http://jartto.wang/2018/12/11/git-rebase/)
+- [Git team workflow: merge or rebase?](https://ljvmiranda921.github.io/notebook/2018/10/25/git-workflow/)
