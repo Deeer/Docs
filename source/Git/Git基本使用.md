@@ -59,11 +59,15 @@ Config文件有三个，分别对应三种不同的指令
 ![IqDsAK](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/IqDsAK.jpg)
 
 我可以通过`git hash-object -w --stdin`向git对象中存储一条记录
+
 ![lIwxfM](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/lIwxfM.jpg)
+
 存储后的记录效果是这样的
+
 ![8vUZ1p](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/8vUZ1p.jpg)
 
 我们还可以通过`git cat-file -p`去读取这条记录内容
+
 ![MNwb59](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/MNwb59.jpg)
 
 这里每条内容对应一个文件,通过这个内容再加上特定的头部信息的SHA-1 校验和为文件命名.其中校验和的前两个字符用于命名子目录,余下的字符作为记录文件名
