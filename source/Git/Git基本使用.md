@@ -269,6 +269,8 @@ commit only     |           |
 
 
 ##### 变基与合并
+
+
     
 - 基变(Rebase)
     - 操作流程
@@ -281,9 +283,31 @@ commit only     |           |
       - `git checkout master`
       - `git merge <branch name>`
 
+    - `--no-ff` :首先,了解`Fast forward`模式,在不指定特定参数的情况下,merge操作默认采用这种模式.但是这种模式会带来一个副作用 -- 删除被合并的分支后,会丢失分支信息.我们可以通过`--no-ff`参数来显式的关闭这个模式,这样,就会在merge时生成一个新的合并提交节点.
+
+![HB6Bwt](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/HB6Bwt.png)
+
+
+`Rebase` 和 `Merge`的区别我这里找到几个配图,便于理解
+![1T3gxa](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/1T3gxa.png)
       
+![uarjvT](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/uarjvT.png)
+
+![D5hHes](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/D5hHes.png)
+
+这里有几点需要注意:
+1.`Rebase`操作的得到的`Feature`节点,并不是`Feature`分支上的原始节点,而是经过重放后的新节点
+2.`Rebase`操作的是`Feature`分支,也就意味着,你需要先切换到`Feature`分支上,然后执行`git reabase master`.换句话说就是将`Feture分支`变基成`Master`分支;Merge操作一般是将Feature分支到Master分支,修改的是的当前的Master分支.
+3.`Rebase`会修改提交历史,对于问题时间排查不好定位,但是对于大型项目下的特定功能模块提交,是一个比较推荐的做法,在这种场景下,我们只需要确保`Master`分支下有一个提交记录节点即可.
+4.不要在公共分支上进行`Rebase`操作
+
+
+
 ## 参考文献
+- [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)
+- [Merging vs. Rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
 - [Git config 设置 Git 参数](https://wolfsonliu.github.io/archive/2018/git-config-she-zhi-git-can-shu.html)
 - [Git Detached Head: What This Means and How to Recove](https://rollout.io/blog/git-detached-head-what-this-means-and-how-to-recover/)
 - [彻底搞懂 Git-Rebase](http://jartto.wang/2018/12/11/git-rebase/)
 - [Git team workflow: merge or rebase?](https://ljvmiranda921.github.io/notebook/2018/10/25/git-workflow/)
+- [你真的懂git rebase吗？](https://medium.freecodecamp.com/git-rebase-and-the-golden-rule-explained-70715eccc372#.f0nnf2zrt)
