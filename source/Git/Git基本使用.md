@@ -78,6 +78,7 @@ Config文件有三个，分别对应三种不同的指令
 ##### 树对象
 用于处理文件名,树对象对应了UNIX中的目录.一个树对象包含了一条或多条树对象记录.每条记录包含了一个指向**数据对象**或**子树对象**的`指针`,已经相应的模式、类型、文件名信息.
 ![YAenMN](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/YAenMN.jpg)
+
 我们可以通过`git cat-file -p`获取对象类型,而其中的`master^{tree}`表示master 分之上最新条所指向的树对象
 
 通过情况下,一个树对象是通过暂存区表示的状态创建的.因此树对象出现的前提是暂存区的文件.
@@ -173,10 +174,12 @@ HEAD 文件里记录的是指向当前分支上最新提交的符号引用.
 
 ###  2.4 当前状态
 ![ZhzyGD](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/ZhzyGD.jpg)
+
 我们可以使用`git status` 或者 `gst`来显示当前的提交状态.其中`newb.md`文件时新创建的文件,他还没有被添加到的暂存区中,而`new.md`已经被添加到暂存区中,但是还有被`commit`到仓库中,因此代码仓库的,因此在`Changes not be committed`下会有`new.md`文件.在提交后,我又对`new.md`文件进行了修改,因此在`Changes not staged for commit`一栏下,可以看到的`new.md`文件.并且,git已经在文件名前将对应的操作进行了标记.这样我们就能知道,那些文件是没有被添加到暂存区的,那些文件是的没有被提及到的git仓库的,还有那些是已经被文件已被追踪,但是改动还没有添加到暂存区的.
 
 另外还可以使用`git status -s`或`gss`来简化输出内容
 ![AVtRpO](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/AVtRpO.jpg)
+
 其中`??`表示该文件未被追踪,`A`表示文件是新添加到暂存区, `M`表示文件已被修改
 
 ### 2.5 提交到代码仓库
@@ -186,12 +189,14 @@ HEAD 文件里记录的是指向当前分支上最新提交的符号引用.
 
 
 **撤销commit**
+
 ![3Fl4kx](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/3Fl4kx.jpg)
 
 这里使用`git reset`命令进行撤销,注意这里的`--soft`参数.他仅仅撤销commit,不删除工作区的代码也不会撤销暂存操作
 这个命令还有量外两个参数:
 - `--hard` : 删除工作去的代码,同时撤销`commit`和`add`提交,此操作会将代码文件删除
-- `--mixed` : 不会对工作空间代码进行改动,但是会撤销`commit` 和 `add` 操作,此操作不会删除代码文件.最终效果是将所有文件都重置为unchack状态
+- `--mixed` : 不会对工作空间代码进行改动,但是会撤销`commit` 和 `add` 操作,此操作不会删除代码文件.最终效果是将所有文件都重置为`unchack`状态
+
 ![ih4jWg](https://deeerpictures.oss-cn-beijing.aliyuncs.com/uPic/ih4jWg.jpg)
 
 > 小总结 : 我们可以按程度记忆 :
