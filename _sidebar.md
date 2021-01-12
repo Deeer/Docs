@@ -1,4 +1,4 @@
 ## 列表
-* [Git](source/Git/Git基本使用.md)
+* [Git基本使用](source/Git/Git基本使用.md)
 
 
